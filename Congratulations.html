@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations</title>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            letter-spacing: 0.05em;
+            color: #5a1e23;
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #C44D58;
+        }
+
+        .canvas {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .text-style {
+            color: orange;
+            font: italic bold 100px Georgia, Serif;
+            text-shadow: -5px 3px 0 #FFF, -10px 7px 0 #a44bf7;
+        }
+
+        .intro {
+            user-select: none;
+            text-align: center;
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .intro .heading {
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 0.1em;
+            color: #fff;
+            text-shadow: 0 2px 4px #004b8d;
+        }
+
+        .intro .title {
+            display: block;
+            font-size: 74px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 4px #004b8d;
+            white-space: nowrap;
+        }
+
+        .sizer {
+            border-radius: 100%;
+            z-index: 1;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(199, 244, 100, 0.2);
+            border: 3px dashed #C7F464;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+            animation: sizer 40s linear infinite;
+        }
+
+        .sizer.hidden {
+            opacity: 0;
+        }
+
+        .bear {
+            position: relative;
+            display: inline-block;
+            background-image: url("https://cdn.discordapp.com/attachments/154767037007265792/491741879449157632/download.png");
+            background-size: contain;
+            border-radius: 100%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .donut {
+            z-index: 1;
+            position: absolute;
+            background-image: url("https://s.bobco.moe/_Unpvh");
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            animation: drop 1s ease-in;
+            box-shadow: 0.1rem 0.3rem 0.25rem rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .donut.static {
+            animation: none;
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+        }
+
+        .donut .icing {
+            position: absolute;
+            top: 6%;
+            right: 6%;
+            bottom: 6%;
+            left: 6%;
+            background: #4ECDC4;
+            border-radius: 100%;
+            border: 2px solid #d5b46f;
+            z-index: 2;
+        }
+
+        .donut .icing:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 24%;
+            left: 24%;
+            width: 50%;
+            height: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 100%;
+        }
+
+        .donut .icing.color-1 {
+            background: #7145c4;
+        }
+
+        .donut .icing.color-2 {
+            background: #a045c4;
+        }
+
+        .donut .icing.color-3 {
+            background: #c441b2;
+        }
+
+        .sprinkle-wrapper {
+            position: absolute;
+            width: 50%;
+            left: 0;
+            top: 45%;
+            height: 10%;
+            z-index: 10;
+            transform-origin: right center;
+        }
+
+        .sprinkle-wrapper .sprinkle {
+            position: absolute;
+            top: 0;
+            left: 15%;
+            width: 20%;
+            box-shadow: inset -1px -1px 0 2px rgba(0, 0, 0, 0.05);
+            background: #fff;
+            border-radius: 30%/100%;
+        }
+
+        .sprinkle-wrapper .sprinkle:after {
+            content: '';
+            display: block;
+            padding-top: 40%;
+        }
+
+        @keyframes sizer {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes drop {
+            40% {
+                margin-left: 0.5rem;
+            }
+
+            70% {
+                margin-right: 0.5rem;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(180deg);
+            }
+        }
+
+        body {
+            background: #1b2530;
+            padding-left: 100px;
+        }
+
+        .conf0 {
+            fill: #FC6394;
+        }
+
+        .conf1 {
+            fill: #EF3C8A;
+        }
+
+        .conf2 {
+            fill: #5ADAEA;
+        }
+
+        .conf3 {
+            fill: #974CBE;
+        }
+
+        .conf4 {
+            fill: #3CBECD;
+        }
+
+        .conf5 {
+            fill: #813BBE;
+        }
+
+        .conf6 {
+            fill: #F9B732;
+        }
+
+        .conf7 {
+            display: none;
+            fill: none;
+            stroke: #000000;
+            stroke-miterlimit: 10;
+        }
+
+        .conf8 {
+            fill: none;
+            stroke: #F9B732;
+            stroke-width: 9;
+            stroke-linecap: round;
+            stroke-miterlimit: 10;
+        }
+
+        .confetti-cone {
+            transform-origin: 200px 50px;
+            animation: confetti-cone1 1.2s ease infinite;
+        }
+
+        @keyframes confetti-cone1 {
+            0% {
+                transform: translate(40px, 95px) rotate(45deg) scale(1, 1);
+            }
+
+            15% {
+                transform: translate(10px, 145px) rotate(45deg) scale(1.1, 0.85);
+            }
+
+            100% {
+                transform: translate(40px, 105px) rotate(45deg) scale(1, 1);
+            }
+        }
+
+        #yellow-strip {
+            fill: none;
+            stroke: #F9B732;
+            stroke-width: 9;
+            stroke-linecap: round;
+            stroke-miterlimit: 10;
+            animation: confdash 1.2s ease infinite;
+        }
+
+        @keyframes confdash {
+            0% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 500;
+                transform: translate(-30px, 30px);
+                opacity: 0;
+            }
+
+            2% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 500;
+                transform: translate(-30px, 30px);
+                opacity: 0;
+            }
+
+            35% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 900;
+                transform: translate(-2px, 0px);
+                opacity: 1;
+            }
+
+            85% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+                transform: translate(1px, -5px);
+                opacity: 1;
+            }
+
+            90% {
+                stroke-dashoffset: 1000;
+                stroke-dashoffset: 1000;
+                transform: translate(2px, -8px);
+                opacity: 0;
+            }
+
+            100% {
+                stroke-dashoffset: 1000;
+                stroke-dashoffset: 500;
+                transform: translate(2px, -8px);
+                opacity: 0;
+            }
+        }
+
+        #a2 {
+            transform-origin: 310.9px 241px;
+            animation: confa 1.2s ease-out infinite;
+        }
+
+        #a1 {
+            transform-origin: 276px 246px;
+            animation: confa 1.2s ease-out infinite;
+        }
+
+        @keyframes confa {
+            0% {
+                opacity: 0;
+                transform: translate(-30px, 20px) rotate(0);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translate(25px, -10px) rotate(60deg);
+            }
+
+            80% {
+                opacity: 1;
+                transform: translate(33px, -18px) rotate(180deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(37px, -23px) scale(0.5) rotate(230deg);
+            }
+        }
+
+        #b1 {
+            transform-origin: 195.2px 232.6px;
+            animation: confb 1.2s ease-out infinite;
+        }
+
+        #b2 {
+            transform-origin: 230.8px 219.8px;
+            animation: confb 1.2s ease-out infinite;
+        }
+
+        #b3 {
+            transform-origin: 222.8px 190.6px;
+            animation: confb 1.2s ease-out infinite;
+        }
+
+        #b4 {
+            transform-origin: 262px 188.5px;
+            animation: confb 1.2s ease-out infinite;
+        }
+
+        #b5 {
+            transform-origin: 282.3px 170.6px;
+            animation: confb 1.2s ease-out infinite;
+        }
+
+        @keyframes confb {
+            0% {
+                opacity: 0;
+                transform: translate(-30px, 20px) rotate(0);
+            }
+
+            12% {
+                opacity: 1;
+                transform: translate(25px, -10px) rotate(60deg);
+            }
+
+            76% {
+                opacity: 1;
+                transform: translate(33px, -18px) rotate(180deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(37px, -23px) scale(0.5) rotate(240deg);
+            }
+        }
+
+        #c1 {
+            transform-origin: 174.8px 183.4px;
+            animation: confc 1.2s ease-out infinite;
+        }
+
+        #c2 {
+            transform-origin: 178.9px 156.2px;
+            animation: confc 1.2s ease-out infinite;
+        }
+
+        #c3 {
+            transform-origin: 206.7px 140px;
+            animation: confc 1.2s ease-out infinite;
+        }
+
+        #c4 {
+            transform-origin: 213.5px 120.2px;
+            animation: confc 1.2s ease-out infinite;
+        }
+
+        @keyframes confc {
+            0% {
+                opacity: 0.7;
+                transform: translate(-30px, 20px) rotate(0);
+            }
+
+            18% {
+                opacity: 1;
+                transform: translate(5px, -10px) rotate(60deg);
+            }
+
+            76% {
+                opacity: 1;
+                transform: translate(13px, -18px) rotate(180deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(17px, -23px) scale(0.5) rotate(230deg);
+            }
+        }
+
+        #d1 {
+            transform-origin: 127px 176px;
+            animation: confd 1.2s ease-out infinite;
+        }
+
+        #d2 {
+            transform-origin: 133px 118px;
+            animation: confd 1.2s ease-out infinite;
+        }
+
+        #d3 {
+            transform-origin: 152px 100px;
+            animation: confd 1.2s ease-out infinite;
+        }
+
+        @keyframes confd {
+            0% {
+                opacity: 0.7;
+                transform: translate(-20px, 20px) rotate(0);
+            }
+
+            18% {
+                opacity: 1;
+                transform: translate(-5px, -10px) rotate(60deg);
+            }
+
+            76% {
+                opacity: 1;
+                transform: translate(-8px, -18px) rotate(180deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-10px, -23px) scale(0.5) rotate(230deg);
+            }
+        }
+
+        .fa {
+            height: 1.5em;
+            text-align: center;
+            color: #00A8E1;
+        }
+
+        .fa.fa-amazon {
+            color: #00A8E1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="canvas">
+        <div class="intro">
+            <div class="title">Congratulations on your Promotion <br>
+                <span class="text-style"> Ashok Yellisetty</span>
+            </div>
+            <!--     <h1 class="heading">Click and drag to make</h1>  
+          <div class="title">BE<div class="bear static"></div>RS</div> -->
+          <small style="color: #FFF; float: right; margin-top: 100px; font-weight: bold">From UI team</small>
+
+        </div>
+        <div class="sizer hidden"></div>
+    </div>
+
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px" y="0px" viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
+        <g class="confetti-cone">
+            <path class="conf0" d="M131.5,172.6L196,343c2.3,6.1,11,6.1,13.4,0l65.5-170.7L131.5,172.6z" />
+            <path class="conf1" d="M131.5,172.6L196,343c2.3,6.1,11,6.1,13.4,0l6.7-17.5l-53.6-152.9L131.5,172.6z" />
+
+            <path class="conf2" d="M274.2,184.2c-1.8,1.8-4.2,2.9-7,2.9l-129.5,0.4c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.9-9.9l129.5-0.4
+                           c5.4,0,9.8,4.4,9.8,9.8C277,180,275.9,182.5,274.2,184.2z" />
+            <polygon class="conf3" points="231.5,285.4 174.2,285.5 143.8,205.1 262.7,204.7 			" />
+            <path class="conf4" d="M166.3,187.4l-28.6,0.1c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.9-9.9l24.1-0.1c0,0-2.6,5-1.3,10.6
+                           C161.8,183.7,166.3,187.4,166.3,187.4z" />
+            <ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -89.8523 231.0278)" class="conf2" cx="233.9"
+                cy="224" rx="5.6" ry="5.6" />
+            <path class="conf5" d="M143.8,205.1l5.4,14.3c6.8-2.1,14.4-0.5,19.7,4.8c7.7,7.7,7.6,20.1-0.1,27.8c-1.7,1.7-3.7,3-5.8,4l11.1,29.4
+                           l27.7,0l-28-80.5L143.8,205.1z" />
+            <path class="conf2"
+                d="M169,224.2c-5.3-5.3-13-6.9-19.7-4.8l13.9,36.7c2.1-1,4.1-2.3,5.8-4C176.6,244.4,176.6,231.9,169,224.2z" />
+            <ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -119.0946 221.1253)" class="conf6" cx="207.4"
+                cy="254.3" rx="11.3" ry="11.2" />
+        </g>
+
+        <rect x="113.7" y="135.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -99.5348 209.1582)" class="conf7"
+            width="178" height="178" />
+        <line class="conf7" x1="76.8" y1="224.7" x2="328.6" y2="224.7" />
+        <polyline class="conf7" points="202.7,350.6 202.7,167.5 202.7,98.9 	" />
+        <!-- here comes the confettis-->
+
+        <circle class="conf2" id="b1" cx="195.2" cy="232.6" r="5.1" />
+        <circle class="conf0" id="b2" cx="230.8" cy="219.8" r="5.4" />
+        <circle class="conf0" id="c2" cx="178.9" cy="160.4" r="4.2" />
+        <circle class="conf6" id="d2" cx="132.8" cy="123.6" r="5.4" />
+        <circle class="conf0" id="d3" cx="151.9" cy="105.1" r="5.4" />
+
+        <path class="conf0" id="d1" d="M129.9,176.1l-5.7,1.3c-1.6,0.4-2.2,2.3-1.1,3.5l3.8,4.2c1.1,1.2,3.1,0.8,3.6-0.7l1.9-5.5
+                    C132.9,177.3,131.5,175.7,129.9,176.1z" />
+        <path class="conf6" id="b5" d="M284.5,170.7l-5.4,1.2c-1.5,0.3-2.1,2.2-1,3.3l3.6,3.9c1,1.1,2.9,0.8,3.4-0.7l1.8-5.2
+                    C287.4,171.9,286.1,170.4,284.5,170.7z" />
+        <circle class="conf6" id="c3" cx="206.7" cy="144.4" r="4.5" />
+        <path class="conf2" id="c1" d="M176.4,192.3h-3.2c-1.6,0-2.9-1.3-2.9-2.9v-3.2c0-1.6,1.3-2.9,2.9-2.9h3.2c1.6,0,2.9,1.3,2.9,2.9v3.2
+                    C179.3,191,178,192.3,176.4,192.3z" />
+        <path class="conf2" id="b4" d="M263.7,197.4h-3.2c-1.6,0-2.9-1.3-2.9-2.9v-3.2c0-1.6,1.3-2.9,2.9-2.9h3.2c1.6,0,2.9,1.3,2.9,2.9v3.2
+                    C266.5,196.1,265.2,197.4,263.7,197.4z" />
+        <!-- yellow-strip-1-->
+        <path id="yellow-strip" d="M179.7,102.4c0,0,6.6,15.3-2.3,25c-8.9,9.7-24.5,9.7-29.7,15.6c-5.2,5.9-0.7,18.6,3.7,28.2
+                    c4.5,9.7,2.2,23-10.4,28.2" />
+        <path class="conf8" id="yellow-strip"
+            d="M252.2,156.1c0,0-16.9-3.5-28.8,2.4c-11.9,5.9-14.9,17.8-16.4,29c-1.5,11.1-4.3,28.8-31.5,33.4" />
+        <path class="conf0" id="a1" d="M277.5,254.8h-3.2c-1.6,0-2.9-1.3-2.9-2.9v-3.2c0-1.6,1.3-2.9,2.9-2.9h3.2c1.6,0,2.9,1.3,2.9,2.9v3.2
+                    C280.4,253.5,279.1,254.8,277.5,254.8z" />
+        <path class="conf3" id="c4" d="M215.2,121.3L215.2,121.3c0.3,0.6,0.8,1,1.5,1.1l0,0c1.6,0.2,2.2,2.2,1.1,3.3l0,0c-0.5,0.4-0.7,1.1-0.6,1.7v0
+                    c0.3,1.6-1.4,2.8-2.8,2l0,0c-0.6-0.3-1.2-0.3-1.8,0h0c-1.4,0.7-3.1-0.5-2.8-2v0c0.1-0.6-0.1-1.3-0.6-1.7l0,0
+                    c-1.1-1.1-0.5-3.1,1.1-3.3l0,0c0.6-0.1,1.2-0.5,1.5-1.1v0C212.5,119.8,214.5,119.8,215.2,121.3z" />
+        <path class="conf3" id="b3" d="M224.5,191.7L224.5,191.7c0.3,0.6,0.8,1,1.5,1.1l0,0c1.6,0.2,2.2,2.2,1.1,3.3v0c-0.5,0.4-0.7,1.1-0.6,1.7l0,0
+                    c0.3,1.6-1.4,2.8-2.8,2h0c-0.6-0.3-1.2-0.3-1.8,0l0,0c-1.4,0.7-3.1-0.5-2.8-2l0,0c0.1-0.6-0.1-1.3-0.6-1.7v0
+                    c-1.1-1.1-0.5-3.1,1.1-3.3l0,0c0.6-0.1,1.2-0.5,1.5-1.1l0,0C221.7,190.2,223.8,190.2,224.5,191.7z" />
+        <path class="conf3" id="a2" d="M312.6,242.1L312.6,242.1c0.3,0.6,0.8,1,1.5,1.1l0,0c1.6,0.2,2.2,2.2,1.1,3.3l0,0c-0.5,0.4-0.7,1.1-0.6,1.7v0
+                    c0.3,1.6-1.4,2.8-2.8,2l0,0c-0.6-0.3-1.2-0.3-1.8,0h0c-1.4,0.7-3.1-0.5-2.8-2v0c0.1-0.6-0.1-1.3-0.6-1.7l0,0
+                    c-1.1-1.1-0.5-3.1,1.1-3.3l0,0c0.6-0.1,1.2-0.5,1.5-1.1v0C309.9,240.6,311.9,240.6,312.6,242.1z" />
+        <path class="conf8" id="yellow-strip" d="M290.7,215.4c0,0-14.4-3.4-22.6,2.7c-8.2,6.2-8.2,23.3-17.1,29.4c-8.9,6.2-19.8-2.7-32.2-4.1
+                    c-12.3-1.4-19.2,5.5-20.5,10.9" />
+        </g>
+    </svg>
+
+
+
+
+    <script>
+        var canvas = document.querySelector('.canvas');
+        var sizer = document.querySelector('.sizer');
+        var startX = '';
+        var startY = '';
+        var size = '100';
+        var index = 0;
+
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createSprinkle() {
+            var sprinkle = document.createElement('div');
+            sprinkle.classList.add('sprinkle');
+            return sprinkle;
+        }
+
+        function addSprinkles(target) {
+            var count = Math.floor(getRandomArbitrary(10, 16));
+            console.log(count);
+
+            for (var i = 0; i < count; i++) {
+                var sprinkleWrapper = document.createElement('div');
+                sprinkleWrapper.classList.add('sprinkle-wrapper');
+                sprinkleWrapper.style.transform = 'rotateZ(' + i * (360 / count) + 'deg)';
+                var sprinkle = document.createElement('div');
+                sprinkle.classList.add('sprinkle');
+                sprinkle.style.transform = 'rotateZ(' + i * (360 / count) + 'deg)';
+                sprinkleWrapper.appendChild(sprinkle);
+                target.appendChild(sprinkleWrapper);
+            }
+        }
+
+        function createDonut(x, y) {
+            //increment the color index
+            index = index < 3 ? index + 1 : 0;
+            var donut = document.createElement('div');
+            donut.classList.add('donut');
+            donut.style.top = y + 'px';
+            donut.style.left = x + 'px';
+            donut.style.width = size + 'px';
+            donut.style.height = size + 'px';
+            var icing = document.createElement('div');
+            icing.classList.add('icing');
+            icing.classList.add('color-' + index);
+            addSprinkles(icing);
+            donut.appendChild(icing);
+
+            var bear = document.createElement('img');
+            bear.classList.add('donut');
+            bear.src = 'https://tinyurl.com/y7dnkazg';
+            bear.style.top = y + 'px';
+            bear.style.left = x + 'px';
+            bear.style.width = size + 'px';
+            bear.style.height = size + 'px';
+            canvas.appendChild(bear);
+
+            //remove the element once the animation finishes
+            setTimeout(function () {
+                canvas.removeChild(bear);
+            }, 900)
+        }
+
+        function handleMousedown(e) {
+            startX = e.clientX;
+            startY = e.clientY;
+            sizer.style.width = 0;
+            sizer.style.height = 0;
+            sizer.style.left = e.clientX + 'px';
+            sizer.style.top = e.clientY + 'px';
+            window.addEventListener('mousemove', handleMousemove);
+            window.addEventListener('mouseup', handleMouseup);
+        }
+
+        function handleMousemove(e) {
+            sizer.classList.remove('hidden');
+            var width = Math.abs(startX - e.clientX);
+            var height = Math.abs(startY - e.clientY);
+            size = Math.max(height, width) * 2;
+            sizer.style.width = size + 'px';
+            sizer.style.height = size + 'px';
+            sizer.style.marginLeft = -size / 2 + 'px';
+            sizer.style.marginTop = -size / 2 + 'px';
+        }
+
+        function handleMouseup(e) {
+            e.preventDefault();
+            sizer.classList.add('hidden');
+            createDonut(startX - (size / 2), startY - (size / 2));
+            window.removeEventListener('mousemove', handleMousemove);
+        }
+
+        function handleClick(e) {
+            createDonut(canvas.offsetWidth / 2 - size / 2, size / 2);
+        }
+
+        window.addEventListener('mousedown', handleMousedown);
+
+        canvas.addEventListener('touchend', handleClick);
+
+        addSprinkles(document.querySelector('.static-icing'));
+    </script>
+</body>
+
+</html>
